@@ -1,0 +1,36 @@
+#%RAML 1.0
+---
+version: v1
+title: GlobalWeatherApp
+
+documentation:
+  - !include /documentation/weatherAppheadLine.raml
+  - !include /documentation/weatherAppDoc.raml
+
+types:
+  weather: !include datatypes/weather.raml
+
+/countries:
+  get:
+    responses:
+      200:
+        body:
+          application/json:
+            example: !include /examples/countriesExample.raml
+  /{country}:
+    /cities:
+      get:
+        responses:
+          200:
+            body:
+              application/json:
+                example: !include /examples/citiesExample.raml
+      /{city}:
+        /weather:
+          get:
+            responses:
+              200:
+                body:
+                  application/json:
+                    type: weather
+                    example: !include /examples/weatherExample.raml

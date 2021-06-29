@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="Implementation-test-suite.xml" />
+	<munit:test name="Implementation-test-suite-countriesFlowTest1" doc:id="3e628845-25ce-4e8b-a7b4-6a95623b4fff" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Countries Mock" doc:id="76a98309-ab42-4877-929e-bd271b7f9a19" processor="wsc:consume">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="Consume" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="GetCitiesByCountryResponse" attributeName="operation" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[MunitTools::getResourceAsString('countriesSample.xml')]" mediaType="application/xml" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to countriesFlow" doc:id="38b22ab6-929f-4947-a895-5aab0472b0af" name="countriesFlow"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="feaa0715-a43e-47cf-b35c-a669699a6da0" expression="#[payload.^raw as String]" is="#[MunitTools::containsString('countries')]" />
+		</munit:validation>
+	</munit:test>
+	<munit:test name="Implementation-test-suite-citiesFlowTest1" doc:id="c0b8750a-888c-4abf-b46d-42bb37bc30c4" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Cities Mock" doc:id="c5f1e014-d16f-400e-b14e-cf954c296403" processor="wsc:consume" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="Consume" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="GetCitiesByCountryResponse" attributeName="operation" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[MunitTools::getResourceAsString('countriesSample.xml')]" mediaType="application/xml" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to citiesFlow" doc:id="637e0c3d-6da3-4cae-a2c7-dc9ea1604352" name="citiesFlow"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="59108a87-fcad-4361-85ff-4812ea6be1cd" expression="#[payload.^raw as String]" is="#[MunitTools::containsString('cities')]" />
+		</munit:validation>
+	</munit:test>
+	<munit:test name="Implementation-test-suite-weatherFlowTest1" doc:id="ab23d603-0640-4533-bd67-a772a64f0937" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Cities Mock" doc:id="4efd01fe-4182-406f-b837-32a1291139ea" processor="wsc:consume" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="Consume" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="GetWeatherResponse" attributeName="operation" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[MunitTools::getResourceAsString('countriesSample.xml')]" mediaType="application/xml" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to weatherFlow" doc:id="823eb317-53af-44f8-a27b-f31413f097a2" name="cityWeatherFlow"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="48b0c7e4-cc8a-450e-bb45-b56406e4942f" expression="#[payload.^raw as String]" is="#[MunitTools::containsString('location')]" />
+		</munit:validation>
+	</munit:test>
+
+
+</mule>
